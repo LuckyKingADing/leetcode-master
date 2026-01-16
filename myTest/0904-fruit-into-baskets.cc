@@ -21,19 +21,60 @@
 输入：fruits = [1,2,3,2,2]
 输出：4
 
+意思就是：
+如果有连续的>=2种类的水果，就停止采摘，返回之前采摘的最大数量。
+滑动窗口？窗口包含两个数，如果这两个数不相等，就继续滑动，如果相等，就停止
+用一个数值记录之前采集的水果种类
+windows = 0;
+start = 0 end = 1
+for (end=1; end < n; end++) {
+    if (nums[end] != nums[start]) {
+        start++;
+        windows ++;
+    } else {
+        return windows ;
+    }
+}
+    return windows ;
+
 */
 
 #include <iostream>
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <map>
 using namespace std;
 
 class Solution {
 public:
     int totalFruit(vector<int>& fruits) {
-        // 请在此处实现你的代码
-        return 0;
+        int n = fruits.size();
+        if (n <= 2) return n;  // 如果水果树少于等于2棵，直接返回，因为最多只能有2种水果
+        
+        map<int, int> fruitCount;  // 用map记录当前窗口内每种水果的数量（map是基础数据结构，像字典一样）
+        int left = 0;  // 左指针，窗口的开始
+        int maxLen = 0;  // 记录最大窗口长度
+        
+        for (int right = 0; right < n; ++right) {  // 右指针从0到n-1移动
+            fruitCount[fruits[right]]++;  // 把当前水果加到窗口里，计数+1
+            
+            // 如果窗口里的水果种类超过2种，就需要缩小窗口
+            while (fruitCount.size() > 2) {  // size()是map中不同水果的种类数
+                fruitCount[fruits[left]]--;  // 左指针的水果计数-1
+                if (fruitCount[fruits[left]] == 0) {  // 如果这个水果的数量变成0，就从map里删掉
+                    fruitCount.erase(fruits[left]);
+                }
+                left++;  // 左指针右移，缩小窗口
+            }
+            
+            // 现在窗口里的水果种类不超过2种，计算当前窗口长度，并更新最大值
+            maxLen = max(maxLen, right - left + 1);
+        }
+        
+        return maxLen;  // 返回最大长度
+
+        // PS：有点难理解的，还得需要多做一做
     }
 };
 
