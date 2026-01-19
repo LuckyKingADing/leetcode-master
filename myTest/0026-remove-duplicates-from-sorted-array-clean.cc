@@ -32,6 +32,12 @@ public:
         return index;
 
         // 又写错了！！！为什么？
+        // ai解析：
+        // 有潜在问题：
+        // 逻辑不标准：slow = fast 会跳跃指针，可能在某些复杂输入下出错（比如有多个不同元素交替的数组）。
+        // 例如，假设数组 [1, 2, 1, 2]：
+        // 你的代码可能会错误处理，因为 slow 跳跃。
+        // 虽然当前测试通过，但不推荐在生产或面试中使用，因为它不够健壮。
 
 
 
@@ -130,6 +136,16 @@ int main() {
     cout << "Modified nums: ";
     for (int i = 0; i < len7; i++) cout << nums7[i] << " ";
     cout << "(Expected: 1 2 3 4)" << endl;
+    cout << "----------------" << endl;
+
+    // 测试用例 8: 复杂输入 [1, 2, 1, 2] (注意：题目要求升序，但这里测试非升序)
+    vector<int> nums8 = {1, 2, 1, 2};
+    cout << "Test Case 8: nums = [1, 2, 1, 2] (非升序，测试边界)" << endl;
+    int len8 = sol.removeDuplicates(nums8);
+    cout << "Result Length: " << len8 << " (Expected: ? 取决于逻辑)" << endl;
+    cout << "Modified nums: ";
+    for (int i = 0; i < len8; i++) cout << nums8[i] << " ";
+    cout << "(Expected: 可能出错，因为不是升序)" << endl;
     cout << "----------------" << endl;
 
     return 0;
