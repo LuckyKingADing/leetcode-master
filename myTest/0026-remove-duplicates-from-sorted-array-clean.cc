@@ -13,19 +13,19 @@ public:
 
         // 双指针法
 
-        // 补充：更完善，处理空数组
+            // 补充：更完善，处理空数组
         if (nums.empty()) return 0;  // 处理空数组
 
         int n = nums.size();
         int slow = 0;
-        int index = 1;
-        for (int fast = 0; fast < n; fast++)
+        int index = 1; // 不需要再新增index变量
+        for (int fast = 0; fast < n; fast++) // fast从1开始即可，不需要判断第一个
         {
             if (nums[fast] != nums[slow])
             {
                 nums[index] = nums[fast];
                 index++;
-                slow = fast;
+                slow = fast; // 不健壮，slow应该缓慢增加，slow跳跃
             }
             
         }
@@ -35,30 +35,25 @@ public:
         // ai解析：
         // 有潜在问题：
         // 逻辑不标准：slow = fast 会跳跃指针，可能在某些复杂输入下出错（比如有多个不同元素交替的数组）。
-        // 例如，假设数组 [1, 2, 1, 2]：
+        // 例如，假设数组 [1, 2, 1, 2]：不过这个不是升序数组，题目要求的是升序数组，不过还是建议写成下面那样，会更加健壮，更具通用性
         // 你的代码可能会错误处理，因为 slow 跳跃。
         // 虽然当前测试通过，但不推荐在生产或面试中使用，因为它不够健壮。
 
 
         // 这是正确的：（还是要用这个）
-        // int slow = 0;
-        // for (int  fast = 0; fast < nums.size(); fast++)
-        // {
-        //     /* code */
-        //     if (nums[fast] != nums[slow])
-        //     {
-        //         ++slow;
-        //         nums[slow] = nums[fast];
-        //     }
+        int slow = 0;
+        for (int  fast = 0; fast < nums.size(); fast++)
+        {
+            /* code */
+            if (nums[fast] != nums[slow])
+            {
+                ++slow;
+                nums[slow] = nums[fast];
+            }
             
-        // }
+        }
 
-        //  // 可选(不是必须的，没有也没关系？)：清空后面元素
-        // for (int i = slow + 1; i < nums.size(); ++i) {
-        //     nums[i] = 0;  // 或其他值
-        // }
-
-        // return slow + 1;
+        return slow + 1;
         
         
         

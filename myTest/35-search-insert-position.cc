@@ -1,28 +1,19 @@
 /* https://leetcode.cn/problems/search-insert-position/description/
 https://programmercarl.com/0035.%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE.html#%E6%80%9D%E8%B7%AF
 
-
 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
 请必须使用时间复杂度为 O(log n) 的算法。
 示例 1:
 输入: nums = [1,3,5,6], target = 5
 输出: 2
-
 示例 2:
 输入: nums = [1,3,5,6], target = 2
 输出: 1
-
 示例 3:
 输入: nums = [1,3,5,6], target = 7
 输出: 4
 
-草稿：
-1.
-nums target，插入target按顺序排序应该在nums中的索引位置
-二分 []
-int left = 0;
-int 
-
+[1,3,5,5,5,5,6],
 */
 
 #include <iostream>
