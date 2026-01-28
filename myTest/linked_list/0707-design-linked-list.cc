@@ -99,7 +99,8 @@ public:
         while(index--) {
             cur = cur->next;
         }
-        // while循环结束的时候 cur等于index所在的位置
+        // 循环结束后，cur 指向第 index 个节点的前一个位置（即索引 index-1 的节点）
+        
         newNode->next = cur->next;
         cur->next = newNode;
         _size++;
@@ -126,7 +127,7 @@ public:
         //如果之后的程序不小心使用了tmp，会指向难以预想的内存空间
         
         tmp=nullptr;
-        _size--;
+        _size--;    
 
         
     }
