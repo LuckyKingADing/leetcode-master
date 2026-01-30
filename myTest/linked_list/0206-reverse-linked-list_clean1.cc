@@ -36,19 +36,17 @@ struct ListNode {
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode* tmp; // 保存cur的下一个节点
+        ListNode* tmp;
         ListNode* cur = head;
         ListNode* pre = NULL;
-        while(cur) {
-            tmp = cur->next; // 用于循环赋值
 
-            cur->next = pre ; // 这里注意，不写pre=cur->next,而是中文直译：cur->next = pre；
-            // 更新cur pre 用于下一轮
-            cur = tmp; // cur是用于下一轮while循环的，当这里的cur为null时就应该结束了，因此循环里面时cur
+        while(cur) {
+            tmp = cur->next;
+            cur->next = pre;
             pre = cur;
+            cur = tmp;
         }
-        return tmp; // 最后一轮到结尾了，正好是pre
-        
+        return pre;
     }
 };
 

@@ -34,7 +34,22 @@ struct ListNode {
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        // 请在此处实现你的代码
+        ListNode* dummyHead = new ListNode(0); // 设置一个虚拟头节点
+        dummyHead->next = head; //初始化虚拟头节点指向头节点
+        ListNode* cur = dummyHead; // 当前节点从虚拟节点开始，方便控制head头节点
+        while(cur->next != NULL && cur->next->next != NULL) {
+            ListNode* tmp = cur->next;
+            ListNode* tmp1 = cur->next->next->next;
+            cur->next = cur->next->next;
+            cur->next->next = tmp;
+            cur->next->next->next = tmp1;
+
+            cur = cur->next->next; // 移动两位，进行下一轮
+        }
+
+        ListNode* resultHead = dummyHead->next;
+        delete dummyHead;
+        return resultHead;
         
     }
 };
