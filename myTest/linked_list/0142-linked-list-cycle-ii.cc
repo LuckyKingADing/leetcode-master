@@ -42,7 +42,27 @@ struct ListNode {
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        // 请在此处实现你的代码
+        // 双指针
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while (fast != NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+            // // 快慢指针相遇，此时从head 和 相遇点，同时查找直至相遇
+            if (slow == fast) {
+                ListNode* index1 = fast;
+                ListNode* index2 = head;
+                while (index1 != index2) {
+                    index1 = index1->next;
+                    index2 = index2->next;
+                }
+                return index2; // 这个就是环的入口，返回
+            }
+        }
+        return NULL; // 没找到则返回NULL
+
+        // ps：代码写出来确实没有多难，因为思路更难，很难想，确实算法题更多的是数学思维啊，就跟做数学题一样，其实完全可以列草稿纸把它当成数学题来做，思路一出来之后，代码实现部分其实也没有多难，熟不熟练罢了。
+        
         
     }
 };

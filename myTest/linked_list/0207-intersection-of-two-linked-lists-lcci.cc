@@ -47,6 +47,8 @@ skipB - 在 listB 中（从头节点开始）跳到交叉节点的节点数
 */
 
 #include <iostream>
+#include <algorithm>
+#include <utility>
 
 // Definition for singly-linked list.
 struct ListNode {
@@ -58,7 +60,58 @@ struct ListNode {
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        // 请在此处实现你的代码
+        // // 方法一：长链表先和短链表对齐，然后再一起逐个遍历比较
+        // ListNode* curA = headA;
+        // ListNode* curB = headB;
+        // int lenA = 0, lenB = 0;
+        // // 先计算A和B各自链表的长度
+        // while (curA != NULL) { // curA是从头结点开始
+        //     lenA++;
+        //     curA = curA->next;
+        // }
+        // while (curB != NULL) {
+        //     lenB++;
+        //     curB = curB->next;
+        // }
+
+        // // 重置
+        // curA = headA;
+        // curB = headB;
+
+        // // curA为较长链表的头，lenA为其长度
+        // if (lenB > lenA) {
+        //     std::swap(lenA, lenB); // swap是std的函数，需要添加命名空间std::才可以，否则会报错，这里注意一下
+        //     std::swap(curA, curB);
+        // }
+
+        // // 让较长的链表先走lenA - lenB 步;保证curA和curB在统一起点上
+        // int gap = lenA - lenB; // 这里刚才写成lenB-lenA了，很隐蔽的错误，需要格外细心
+        // while (gap--) { // gap为1就走1步，走gap步，合理
+        //     curA = curA->next; 
+        // }
+
+        // // 遍历curA和curB，遇到相同则直接返回
+        // while (curA != NULL) {
+        //     if (curA == curB) {
+        //         return curA;
+        //     }
+        //     curA = curA->next;
+        //     curB = curB->next;
+        // }
+
+        // // 没找到，返回NULL
+        // return NULL;
+        
+        // 方法二：双指针法：思路是利用走的总路程相同，先让curA走到末尾，然后指向curB的头结点，然后curB也同时走到末尾，指向curA的头结点，然后各自开始走，直到curA=curB,因为走的总路程是相同的，所以刚好一起走到相同的结点。
+
+        ListNode* p1 = headA; 
+        ListNode* p2 = headB;
+        while (p1 != p2) {
+            p1 = p1 ? p1->next : headB; // p1=p1是说只要p1不为空null，就执行cur->next，让其逐个遍历执行，当p1走到null时，就让它指向headB;
+            p2 = p2 ? p2->next : headA;
+        }
+        return p1; // 没找到就是NULL，找到了就是非NULL，反正都是p1，路程是一样的，没找到的话就是都走到了NULL。
+
         
     }
 };
@@ -101,6 +154,8 @@ int main() {
     } else {
         std::cout << "Test Case 2: No intersection (Expected: No intersection)" << std::endl;
     }
+
+    
 
     return 0;
 }
