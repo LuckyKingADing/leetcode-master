@@ -25,8 +25,75 @@ using namespace std;
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        // 请在此处实现你的代码
+        // 跟着打一遍：
+        // 空数组判断:行列都判断一遍
+        if (matrix.size() == 0 || matrix[0].size() == 0) { return {}; } // 返回空数组而不是返回0
+
+        int rows = matrix.size(); // 行
+        int columns = matrix[0].size(); // 列
+        int total = rows * columns;
+        vector<int> res(total); // 保存结果
+        int startx = 0; // 每次循环的起始x y索引
+        int starty = 0;
+
+        int loop = min(rows, columns) / 2;//循环的次数，需要注意计算方法
+        int mid = min(rows, columns) / 2; //中间位置的计算方式
+
+        int count = 0; // res数组中的索引计数
+        int offset = 1; // 每一圈循环，需要控制每一条边的遍历长度
+
+        // ps:变量并非在一开始想好，在过程中慢慢补也可以。
+
+        int i,j;
         
+        while (loop --) {
+            i = startx;
+            j = starty;
+
+            for (j = starty; j < starty + columns - offset; j++) {
+                res[count++] = matrix[startx][j];
+            }
+
+            for (i = startx; i < startx +rows - offset; i++) {
+                res[count++] = matrix[i][j];
+            }
+
+            for (; j > starty; j--) {
+                res[count++] = matrix[i][j];
+            }
+
+            for (; i > startx; i--) {
+                res[count++] = matrix[i][starty];
+            }
+
+            startx++;
+            starty++;
+
+            // offset 要加2？为什么
+            offset += 2;
+
+        }
+
+        if (min(rows, columns) % 2) {
+            if (rows > columns) { // 行大于列，中间是 一小段列
+                for (int i = mid; i < mid + rows - columns + 1; i++) {
+                    res[count++] = matrix[i][mid];
+                }
+            } else {
+                for (int i = mid; i < mid + columns - rows + 1; i++) {
+                    res[count++] = matrix[mid][i];
+                }
+            }
+        }
+        return res; // 返回最终的vector数组
+
+        // ps：for循环的边界条件还真挺难判断的：有什么好的方法吗：
+            // 1.推导公式
+            // 2.打印cout调试输出，用于测试遍历是否正确
+            // 3.严格使用左闭右开的原则，最右侧边界不包含，到了就终止
+            // 4.画图模拟，
+        // ps：感觉加入变量进行测试还是挺好用的，然后打印调试输出。
+
     }
 };
 
