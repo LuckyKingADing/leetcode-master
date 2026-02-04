@@ -23,7 +23,37 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> intersection(vector<int>& nums1, vector<int>& nums2);
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        // // 1.如果不限制大小，那么就不能用数组了，就得用unordered_set存储
+        // unordered_set<int> result_set; // 存放结果，之所以用set是为了给结果集去重
+        // unordered_set<int> nums_set(nums1.begin(), nums1.end());
+
+        // for (int num : nums2) {
+        //     if (nums_set.find(num) != nums_set.end()) {
+        //         result_set.insert(num);
+        //     }
+        // }
+
+        // return vector<int>(result_set.begin(), result_set.end());
+
+        // 2.如果限制了大小和数值范围：可以使用数组
+        /* 本题后面 力扣改了 题目描述 和 后台测试数据，增添了 数值范围： 
+            * 1 <= nums1.length, nums2.length <= 1000
+            * 0 <= nums1[i], nums2[i] <= 1000
+            所以就可以 使用数组来做哈希表了， 因为数组都是 1000以内的。  */
+        unordered_set<int> result_set;
+        int hash[1005] = {0};
+        for (int num : nums1) {
+            hash[num] = 1; // 初始化num1中的都为1，存储在hash中，同时进行了降重操作
+        }
+        for (int num : nums2) {
+            if (hash[num] == 1) { // 等于1才存储，有交集
+                result_set.insert(num);
+            }
+        }
+        return vector<int>(result_set.begin(), result_set.end());
+
+    }
 };
 
 int main() {

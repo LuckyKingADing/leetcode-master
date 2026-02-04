@@ -27,7 +27,23 @@ using namespace std;
 
 class Solution {
 public:
-    bool isAnagram(string s, string t);
+    bool isAnagram(string s, string t) {
+        int record[26] = {0};
+        for (int i = 0; i < s.size(); i++) {
+            record[s[i] - 'a']++;
+        }
+        for (int i = 0; i < t.size(); i++) {
+            record[t[i] - 'a']--;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (record[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+        
+        // ps:本质也是数组的应用？只不过是涉及次数的统计
+    }
 };
 
 int main() {

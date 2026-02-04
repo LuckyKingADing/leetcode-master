@@ -23,11 +23,46 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <cstring> // memeset函数等使用需要包含头文件
 using namespace std;
 
 class Solution {
 public:
-    vector<string> commonChars(vector<string>& A);
+    vector<string> commonChars(vector<string>& A) {
+        vector<string> result;
+        if (A.size() == 0) return result;
+        // 初始化hash，用于比较
+        int hash[26] = {0};
+        for (int i = 0; i < A[0].size(); i++) {
+            hash[A[0][i] - 'a']++;
+        }
+
+        // 逐个遍历除第一个字符的剩余，与第一个进行比较
+        int hashOtherStr[26] = {0};
+        for (int i = 1; i < A.size(); i++) {
+            // 清空hashOtherStr数组
+            memset(hashOtherStr, 0, 26 * sizeof(int));
+            for (int j = 0; j < A[i].size(); j++) {
+                hashOtherStr[A[i][j] - 'a']++;
+            }
+            // 更新hash，最小次数
+            // !!!
+            for (int k = 0; k < 26; k++) {
+                hash[k] = min(hash[k], hashOtherStr[k]);
+            }            
+        }
+
+        // 将hash统计的字符次数，转换成输出形式
+        for (int i = 0; i < 26; i++) {
+            while (hash[i] != 0) { // 重复的也输出，这也是比较上面最小次数的原因，避免少输出了
+                string s(1, i + 'a'); // !!! char->string
+                result.push_back(s); // !!!
+                hash[i]--;
+            }
+        }
+
+        return result;
+    }
 };
 
 int main() {

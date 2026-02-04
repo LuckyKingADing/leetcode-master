@@ -36,7 +36,23 @@ using namespace std;
 
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target);
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map <int, int> map; // 先是元素 后是下标
+        for (int i = 0; i < nums.size(); i++) {
+            // 遍历当前元素，在map中寻找是否有匹配的key
+            // 如果找到，iter 指向该元素；否则，iter == map.end()
+            // iter 得到的是 unordered_map 中找到的键值对（pair）。         
+            // iter->first 是键（元素值），iter->second 是值（下标）。
+            auto iter = map.find(target - nums[i]);
+            if (iter != map.end()) { // 找到了
+                // iter->second是之前元素的下标；i是当前元素下标
+                return {iter->second, i}; // 返回数组：{}
+            }           
+            // 如果没找到匹配对，就把访问过的元素和下标加入到map中：pair<int, int>(i,j)
+            map.insert(pair<int, int>(nums[i], i));
+        }
+        return {};
+    }
 };
 
 int main() {

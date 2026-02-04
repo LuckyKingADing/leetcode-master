@@ -23,7 +23,35 @@ using namespace std;
 
 class Solution {
 public:
-    bool isHappy(int n);
+    // 计算所有单数的平方之和
+    int getSum(int n) { 
+        int sum = 0;
+        while (n) {
+            sum += (n % 10) * (n % 10); // 余数
+            n /= 10; // 进一位
+        }
+        return sum;
+
+    }
+
+    bool isHappy(int n) {
+        unordered_set<int> set;
+        while (1) {
+            int sum = getSum(n);
+            if (sum == 1) {
+                return true;
+            }
+            // 如果这个sum曾经出现过，说明已经陷入了无限循环了，立刻return false
+            if (set.find(sum) != set.end()) { // ！=说明sum存在于set之中，==说明不存在于set之中
+                return false;
+            } else {
+                set.insert(sum);// 不存在，放进去继续循环找
+            }
+            n = sum; //再次计算sum，继续循环
+
+        }
+
+    }
 };
 
 int main() {
