@@ -29,6 +29,27 @@ public:
 
 void Solution::reverseString(vector<char>& s) {
     // TODO: Implement the reverseString function
+    // 双指针法，双向查找法
+    for (int i = 0, j = s.size() - 1; i < s.size() / 2; i++, j--) {
+        // 方法1 直接用库函数swap
+        //swap(s[i], s[j]);
+
+        // 方法2 用临时字符tmp交换
+        // char tmp = s[i];
+        // s[i] = s[j];
+        // s[j] = tmp;
+
+        // 方法3 
+        /* 使用**位运算（XOR 异或运算）**来交换两个变量的值，而不使用临时变量。这是 C++ 中的经典技巧，基于 XOR 的数学性质：
+            a ^ a = 0（任何数与自己异或为 0）。
+            a ^ 0 = a（任何数与 0 异或不变）。
+            a ^ b ^ a = b（异或运算满足交换律和结合律）。 */
+        s[i] ^= s[j];
+        s[j] ^= s[i];
+        s[i] ^= s[j];
+
+
+    }
 }
 
 int main() {
