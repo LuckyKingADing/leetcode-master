@@ -33,13 +33,45 @@ using namespace std;
 
 class Solution {
 public:
-    string reverseWords(string s);
-};
+    void reverse(string& s, int start, int end){ //翻转，区间写法：左闭右闭 []
+        for (int i = start, j = end; i < j; i++, j--) {
+            swap(s[i], s[j]);
+        }
+    }
 
-string Solution::reverseWords(string s) {
-    // TODO: Implement the reverseWords function
-    return "";
-}
+    void removeExtraSpaces(string& s) { // 传入&,带引用
+        // 法二 快慢指针法,更简洁
+        int slow = 0; // slow慢指针,i是快指针
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] != ' ') {
+                if (slow != 0) {
+                    s[slow] = ' ';
+                    slow++;
+                }
+                while (i < s.size() && s[i] != ' ') {
+                    s[slow] = s[i];
+                    slow++;
+                    i++;
+                }
+            }
+        }
+        s.resize(slow);
+
+    }
+
+    string reverseWords(string s) {
+        removeExtraSpaces(s);
+        reverse(s, 0, s.size() - 1);
+        int start = 0;
+        for (int i = 0; i <= s.size(); i++) {
+            if (i == s.size() || s[i] ==' ') {
+                reverse(s, start, i - 1);
+                start = i + 1;
+            }
+        }
+        return s;
+    }
+};
 
 int main() {
     Solution sol;
@@ -58,6 +90,36 @@ int main() {
     string s3 = "a good   example";
     string result3 = sol.reverseWords(s3);
     cout << "Test Case 3: s=\"" << s3 << "\", Result=\"" << result3 << "\" (Expected: \"example good a\")" << endl;
+
+    // 测试用例 4: 单个单词
+    string s4 = "hello";
+    string result4 = sol.reverseWords(s4);
+    cout << "Test Case 4: s=\"" << s4 << "\", Result=\"" << result4 << "\" (Expected: \"hello\")" << endl;
+
+    // 测试用例 5: 多个单词
+    string s5 = "I love coding";
+    string result5 = sol.reverseWords(s5);
+    cout << "Test Case 5: s=\"" << s5 << "\", Result=\"" << result5 << "\" (Expected: \"coding love I\")" << endl;
+
+    // 测试用例 6: 前导和尾随空格
+    string s6 = "  world peace  ";
+    string result6 = sol.reverseWords(s6);
+    cout << "Test Case 6: s=\"" << s6 << "\", Result=\"" << result6 << "\" (Expected: \"peace world\")" << endl;
+
+    // 测试用例 7: 单词间多个空格
+    string s7 = "one   two    three";
+    string result7 = sol.reverseWords(s7);
+    cout << "Test Case 7: s=\"" << s7 << "\", Result=\"" << result7 << "\" (Expected: \"three two one\")" << endl;
+
+    // 测试用例 8: 包含数字
+    string s8 = "leet123 code456";
+    string result8 = sol.reverseWords(s8);
+    cout << "Test Case 8: s=\"" << s8 << "\", Result=\"" << result8 << "\" (Expected: \"code456 leet123\")" << endl;
+
+    // 测试用例 9: 只有两个单词
+    string s9 = "a b";
+    string result9 = sol.reverseWords(s9);
+    cout << "Test Case 9: s=\"" << s9 << "\", Result=\"" << result9 << "\" (Expected: \"b a\")" << endl;
 
     return 0;
 }
