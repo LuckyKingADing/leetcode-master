@@ -31,8 +31,33 @@ public:
 };
 
 string Solution::rightRotateString(string s, int k) {
-    // TODO: 实现右旋转，使用整体反转 + 局部反转
-    return s; // 临时返回原字符串
+    
+    /*  注意： 
+        std::reverse(first, last) 的区间是左闭右开（[first, last)）。
+        first：指向要反转范围的起始位置（包含）。
+        last：指向要反转范围的结束位置（不包含）。*/
+
+    // // 方法1：先整体再局部
+    // // 整体反转
+    // int len = s.size();
+    // reverse(s.begin(), s.end());
+    // // 反转前 k 个字符
+    // reverse(s.begin(), s.begin() + k); // 翻转索引为0~k-1,也就是翻转前k个
+    // // 反转后 len - k 个字符
+    // reverse(s.begin() + k, s.end()); // 翻转索引为k-1 ~ len，也就是翻转剩余的len-k
+    // return s;
+
+    // 方法2：先局部再整体，也可以
+    int len = s.size();
+    // 错误 reverse(s.begin(), s.end() + len - k);  // 前len-k个字符进行翻转
+    reverse(s.begin(), s.begin() + len - k); // 注意是s.begin()+len-k
+    reverse(s.begin() + len - k, s.end()); // 后k个字符进行翻转
+    reverse(s.begin(), s.end());
+    return s;
+    
+
+
+
 }
 
 int main() {
